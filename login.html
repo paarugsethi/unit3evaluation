@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    
+    <h1>Login</h1>
+
+    <form>
+
+        <label for="email">E-mail Id</label>
+        <input type="email" id="email" placeholder="xyz@example.com"/>
+        
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Password"/>
+        
+        <input type="submit" id="submit"/>
+    </form>
+
+    <script type="text/javascript">
+
+        window.addEventListener("load", () => {
+            const email = document.getElementById("email").value;
+            const pass = document.getElementById("password").value;
+            const submit = document.getElementById("submit");
+
+            submit.addEventListener("click", (e) => {
+                e.preventDefault();
+                handleLogin(email, pass);
+            })
+        })
+
+        function executeLogin(email, pass){
+            const payload = {
+                email: email,
+                password: pass
+            }
+            return fetch(`https://reqres.in/api/login`,{
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(response => response)
+            .catch(err => console.log(err))
+        }
+
+        async function handleLogin(email, pass){
+            try{
+
+                const results = await executeLogin(email, pass);
+                if (results){
+                    console.log(results)
+                    alert("success");
+                }
+            }
+            catch{
+
+            }
+        }
+
+    </script>
+</body>
+</html>
