@@ -40,6 +40,45 @@
             width: 100px;
         }
 
+        #users{
+            width: 80%;
+            margin: auto;
+        }
+
+        .results{
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .main-div{
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 280px;
+            border-radius: 6px;
+            border: white 1px solid;
+            margin: 20px 0;
+        }
+
+        .info-div{
+            width: 65%;
+            padding: 2.5%;
+            height: 220px;
+            border-radius: 6px;
+        }
+
+        .img-div{
+            width: 30%;
+            margin: auto;
+            height: 280px;
+            border-radius: 6px;
+        }
+
+        .img{
+            width: 100%;
+        }
+
+
     </style>
     <title>Home</title>
 </head>
@@ -89,7 +128,7 @@
             imgDiv.innerHTML = `<img class="img" src="${user.avatar_url}"/>`
 
             infoDiv.append(userId, profileLink);
-            mainDiv.append(infoDiv, imgDiv);
+            mainDiv.append(imgDiv, infoDiv);
 
             return mainDiv;
         }
@@ -106,12 +145,13 @@
                 resDiv.setAttribute("class", "results")
 
                 const search = document.getElementById("search").value;
+                console.log(search)
 
                 const results = await searchResults(search);
 
-                if (results.incomplete_results == "false"){
+                if (results.incomplete_results == false){
 
-                    for (let user of results){
+                    for (let user of results.items){
                         console.log(user)
                         const userInfo = createUserCard(user);
                         resDiv.append(userInfo);
