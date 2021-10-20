@@ -4,11 +4,70 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *{
+            font-family: 'Poppins', sans-serif;
+            background-color: #0D1117;
+            color: white;
+        }
+
+        h1{
+            text-align: center;
+        }
+
+        #credentials{
+            border: white 0.5px solid;
+            border-radius: 6px;
+            margin-left: 30px;
+            width: 300px;
+            padding: 20px;
+        }
+
+        #credentials p{
+            font-size: 12px;
+        }
+
+        #credentials h3{
+            font-size: 16px;
+        }
+
+        form{
+            margin: 30px 30px;
+        }
+
+        input{
+            display: block;
+            margin: 3px 0 6px 0;
+            background-color: white;
+            border-radius: 4px;
+            width: 200px;
+            height: 40px;
+            color: #0D1117;
+        }
+
+        input[type=submit]{
+            margin-top: 20px;
+            color: #0D1117;
+            font-size: 14px;
+            font-weight: 500;
+            width: 100px;
+        }
+
+    </style>
     <title>Login</title>
 </head>
 <body>
     
     <h1>Login</h1>
+
+    <div id="credentials">
+        <h3>Here's a sample Email Id and Password to login</h3>
+        <p>Email: eve.holt@reqres.in</p>
+        <p>Password: cityslicka</p>
+    </div>
 
     <form>
 
@@ -59,8 +118,11 @@
 
                 const results = await executeLogin(email, pass);
                 if (results.error){
-                    console.log(results)
                     alert("Invalid Credentials");
+                }
+                else{
+                    alert("Successful");
+                    window.location.href = "home.html";
                 }
             }
             catch{

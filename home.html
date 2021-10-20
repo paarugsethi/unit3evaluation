@@ -4,15 +4,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *{
+            font-family: 'Poppins', sans-serif;
+            background-color: #0D1117;
+            color: white;
+        }
+
+        h1{
+            text-align: center;
+        }
+
+        form{
+            margin: 30px 30px;
+        }
+
+        input{
+            display: block;
+            margin: 3px 0 6px 0;
+            background-color: white;
+            border-radius: 4px;
+            width: 200px;
+            height: 40px;
+            color: #0D1117;
+        }
+
+        input[type=submit]{
+            margin-top: 20px;
+            color: #0D1117;
+            font-size: 14px;
+            font-weight: 500;
+            width: 100px;
+        }
+
+    </style>
     <title>Home</title>
 </head>
 <body>
     
-    <h1>Search for users on Github</h1>
+    <h1>Users on Github</h1>
 
     <form>
 
-        <label for="search">Search Users</label>
+        <label for="search">Search here</label>
         <input type="text" id="search" placeholder="Search for users"/>
         
         <input type="submit" id="submit"/>
@@ -37,6 +74,24 @@
 
         function createUserCard(user){
             const mainDiv = document.createElement("div");
+            mainDiv.setAttribute("class", "main-div");
+            const imgDiv = document.createElement("div");
+            imgDiv.setAttribute("class", "img-div");
+            const infoDiv = document.createElement("div");
+            infoDiv.setAttribute("class", "info-div");
+
+            const userId = document.createElement("p");
+            userId.textContent = user.login;
+
+            const profileLink = document.createElement("div");
+            profileLink.innerHTML = `<a href="${user.url}">Github Profile</a>`
+
+            imgDiv.innerHTML = `<img class="img" src="${user.avatar_url}"/>`
+
+            infoDiv.append(userId, profileLink);
+            mainDiv.append(infoDiv, imgDiv);
+
+            return mainDiv;
         }
 
         async function handleSearch(){
@@ -57,6 +112,7 @@
                 if (results.incomplete_results == "false"){
 
                     for (let user of results){
+                        console.log(user)
                         const userInfo = createUserCard(user);
                         resDiv.append(userInfo);
                     }
