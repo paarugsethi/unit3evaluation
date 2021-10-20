@@ -24,14 +24,11 @@
     <script type="text/javascript">
 
         window.addEventListener("load", () => {
-            const email = document.getElementById("email").value;
-            const pass = document.getElementById("password").value;
+
             const submit = document.getElementById("submit");
 
-            submit.addEventListener("click", (e) => {
-                e.preventDefault();
-                handleLogin(email, pass);
-            })
+            submit.addEventListener("click", handleLogin);
+            
         })
 
         function executeLogin(email, pass){
@@ -51,13 +48,19 @@
             .catch(err => console.log(err))
         }
 
-        async function handleLogin(email, pass){
+        async function handleLogin(){
             try{
 
+                event.preventDefault();
+
+                const email = document.getElementById("email").value;
+                const pass = document.getElementById("password").value;
+                console.log(email, pass)
+
                 const results = await executeLogin(email, pass);
-                if (results){
+                if (results.error){
                     console.log(results)
-                    alert("success");
+                    alert("Invalid Credentials");
                 }
             }
             catch{

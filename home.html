@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    
+    <h1>Search for users on Github</h1>
+
+    <form>
+
+        <label for="search">Search Users</label>
+        <input type="text" id="search" placeholder="Search for users"/>
+        
+        <input type="submit" id="submit"/>
+    </form>
+
+    <div id="users"></div>
+
+    <script type="text/javascript">
+    
+        window.addEventListener("load", () => {
+            const submit = document.getElementById("submit");
+            
+            submit.addEventListener("click", handleSearch);
+        })
+
+        function searchResults(search){
+            return fetch(`https://api.github.com/search/users?q=${search}`)
+            .then(response => response.json())
+            .then(response => response)
+            .catch(err => err)
+        }
+
+        function createUserCard(user){
+            const mainDiv = document.createElement("div");
+        }
+
+        async function handleSearch(){
+            try{
+
+                event.preventDefault();
+
+                const userDiv = document.getElementById("users");
+                userDiv.innerHTML = null;
+
+                const resDiv = document.createElement("div");
+                resDiv.setAttribute("class", "results")
+
+                const search = document.getElementById("search").value;
+
+                const results = await searchResults(search);
+
+                if (results.incomplete_results == "false"){
+
+                    for (let user of results){
+                        const userInfo = createUserCard(user);
+                        resDiv.append(userInfo);
+                    }
+
+                    userDiv.append(resDiv);
+
+                }
+
+            }
+            catch{
+
+            }
+        }
+
+    </script>
+
+</body>
+</html>
