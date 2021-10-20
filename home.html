@@ -78,6 +78,17 @@
             width: 100%;
         }
 
+        #pagination{
+            margin: auto;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100px;
+        }
+
+        #pagination button{
+            background-color: white;
+            color: black;
+        }
 
     </style>
     <title>Home</title>
@@ -96,16 +107,73 @@
 
     <div id="users"></div>
 
+    <div id="pagination"></div>
+
     <script type="text/javascript">
+
+        let currentPage = 1;
+        let limit = 10;
     
         window.addEventListener("load", () => {
             const submit = document.getElementById("submit");
+
+            createPagination();
+
+            const pagination = document.getElementById("pagination");
             
-            submit.addEventListener("click", handleSearch);
+            pagination.addEventListener("click", handlePageChange)
+            
+            submit.addEventListener("click", () => {
+                handleSearch(currentPage, limit);
+            });
         })
 
-        function searchResults(search){
-            return fetch(`https://api.github.com/search/users?q=${search}`)
+        async function handlePageChange(){
+            try{
+                const pageNumber = parseInt(event.target.name);
+                currentPage = pageNumber;
+
+                handleSearch(currentPage, limit);
+
+                createPagination();
+            }
+            catch{
+
+            }
+        }
+
+        function createPagination(){
+            const div = document.getElementById("pagination");
+            div.innerHTML = null;
+            
+            const prev = document.createElement("button");
+            if (currentPage == 1){
+                prev.textContent = "Prev";
+                prev.disabled = true;
+            }
+            else{
+                prev.textContent = currentPage - 1;
+            }
+            prev.name = currentPage - 1;
+
+            const current = document.createElement("button");
+            current.textContent = currentPage;
+            current.name = currentPage;
+            
+            const next = document.createElement("button");
+            next.textContent = currentPage + 1;
+            next.name = currentPage + 1;
+
+            div.append(prev, current, next);
+        
+        }
+
+        function searchResults(search, page, limit){
+
+            page = page || 1;
+            limit = limit || 10;
+            
+            return fetch(`https://api.github.com/search/users?q=${search}&page=${page}&per_page=${limit}`)
             .then(response => response.json())
             .then(response => response)
             .catch(err => err)
@@ -133,7 +201,7 @@
             return mainDiv;
         }
 
-        async function handleSearch(){
+        async function handleSearch(page, limit){
             try{
 
                 event.preventDefault();
@@ -147,7 +215,7 @@
                 const search = document.getElementById("search").value;
                 console.log(search)
 
-                const results = await searchResults(search);
+                const results = await searchResults(search, page, limit);
 
                 if (results.incomplete_results == false){
 
